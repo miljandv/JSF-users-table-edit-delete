@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+        <f:event type="preRenderView" listener="#{myController.fill_stuff()}"></f:event>
+        <f:event type="preRenderView" listener="#{myController.fill_map()}"></f:event>
+    </h:head>
+    <h:body>
+        <h:form>
+                <h:selectOneMenu value="#{myController.sel_1}">
+                <f:selectItems value="#{myController.numlist}"></f:selectItems>
+                </h:selectOneMenu>
+                <h:selectOneMenu value="#{myController.sel_num}">
+                <f:selectItems value="#{myController.numbers}"></f:selectItems>
+                </h:selectOneMenu>
+                <h:selectOneMenu value="#{myController.sel_stuff}">
+                <f:selectItems value="#{myController.stuff}"></f:selectItems>
+                </h:selectOneMenu>
+                <h:selectOneMenu>
+                <f:selectItems value="#{myController.users}"
+                               var="user" itemLabel="#{user.name}"
+                               itemValue="#{user.surname}"
+                               ></f:selectItems>
+                </h:selectOneMenu>
+                <h:selectManyListbox value="#{myController.sel_users}">
+                <f:selectItems value="#{myController.users}"
+                               var="user" itemLabel="#{user.name}"
+                               itemValue="#{user.surname}"
+                               ></f:selectItems>
+                </h:selectManyListbox>
+            <h:dataTable value="#{myController.users}" var="user">            
+                <h:column>                
+                    <f:facet name="header">
+                        Name
+                    </f:facet>
+                    <h:outputText value="#{user.name}" rendered="#{not suer.edit}" 
+                                  style="#{user.name eq 'zika'?'color:red':'color:green'}"></h:outputText>
+                    <h:inputText value="#{user.name}" rendered="#{user.edit}"></h:inputText>
+                </h:column>
+                <h:column>                
+                    <f:facet name="header">
+                        Surname
+                    </f:facet>
+                    <h:outputText value="#{user.surname}" rendered="#{not user.edit}"></h:outputText>
+                    <h:inputText value="#{user.surname}" rendered="#{user.edit}"></h:inputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Edit
+                    </f:facet>
+                    <h:selectBooleanCheckbox value="#{user.edit}" onclick="submit()"></h:selectBooleanCheckbox>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Delete
+                    </f:facet>
+                    <h:commandButton value="Delete" action="#{myController.delete(user)}">
+                    </h:commandButton>
+                </h:column>
+            </h:dataTable> 
+            <h:commandButton value="Select" action="welcome"></h:commandButton>
+        </h:form>
+        <br/>
+        <ui:repeat value="#{myController.map}" var="entry">            
+            Key: #{entry.key}, value: #{entry.value}
+        </ui:repeat>
+    </h:body>
+</html>
+
